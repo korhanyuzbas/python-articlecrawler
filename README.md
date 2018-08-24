@@ -29,10 +29,14 @@ Checkout the code:
     pip install -r requirements.txt
     python main.py <URL> --export=sql
     
-
+**Test**
+    
+    python -m unittest
+    
 TODO
 ----
 
  * More SQL support.
  * Better documentation.
  * Performance improvements.
+ * Test cases.

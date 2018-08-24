@@ -4,10 +4,6 @@ from main import ArticleCrawler
 
 
 class ArticleCrawlerTest(unittest.TestCase):
-    def setUp(self):
-        article = ArticleCrawler(url='https://www.theguardian.com/politics/2018/aug/19/brexit-tory-mps-warn-of-entryism-threat-from-leave-eu-supporters')
-        self.assertIsInstance(article.title, str)
-
     def test_article(self):
         article = ArticleCrawler(url='https://www.theguardian.com/politics/2018/aug/19/brexit-tory-mps-warn-of-entryism-threat-from-leave-eu-supporters')
         self.assertIsInstance(article.title, str)
