@@ -80,6 +80,8 @@ class ExportArticle(object):
                 article.raw_content = self.article.raw_content
                 article.content = self.article.content
                 article.title = self.article.title
+                article.meta_keywords = self.article.meta_keywords
+                article.meta_description = self.article.meta_description
                 article.images = json.dumps(self.article.images)
                 sql.commit()
         else:
@@ -87,6 +89,8 @@ class ExportArticle(object):
                               content=self.article.content,
                               url=self.article.url,
                               raw_content=self.article.raw_content,
+                              meta_description=self.article.meta_description,
+                              meta_keywords=self.article.meta_keywords,
                               images=json.dumps(self.article.images))
             sql.add(article)
             sql.commit()
@@ -116,10 +120,12 @@ class ExportArticle(object):
             json_data[self.article.url] = {}
 
         json_data[self.article.url] = {'title': self.article.title,
-                          'content': self.article.content,
-                          'raw_content': self.article.raw_content,
-                          'url': self.article.url,
-                          'images': self.article.images}
+                                       'content': self.article.content,
+                                       'raw_content': self.article.raw_content,
+                                       'url': self.article.url,
+                                       'meta_keywords': self.article.meta_keywords,
+                                       'meta_description': self.article.meta_description,
+                                       'images': self.article.images}
 
         # create json file
         with open(article_json_file, 'w') as f:
@@ -154,6 +160,7 @@ class ArticleCrawler(object):
         self.raw_content = ''
         self.images = []
         self.meta_description = ''
+        self.meta_keywords = ''
         self.response = self.__get_response()
 
         if not self.response:
@@ -295,6 +302,12 @@ class ArticleCrawler(object):
                 if "language" in key.lower():
                     content_language = value
 
+            # Goose would have found content language in meta
+            if not content_language:
+                content_language = goose_object.meta_lang
+
+            # If not content language has found, English will be default language
+            # TODO: take parameter from user for default language
             if not content_language:
                 parapraphs = justext.justext(self.response.content, justext.get_stoplist(language='English'))
             else:
@@ -333,6 +346,8 @@ class ArticleCrawler(object):
         self.title = title
         self.content = content
         self.raw_content = self.response.text
+        self.meta_description = goose_object.meta_description
+        self.meta_keywords = goose_object.meta_keywords
 
     # not using currently.
     def get_pdf_details(self):
