@@ -12,4 +12,5 @@ class Article(Base):
     content = Column(Text)
     raw_content = Column(Text)
     images = Column(Text)
-    keywords = Column(String, nullable=True)
+    meta_keywords = Column(String, nullable=True)
+    meta_description = Column(String, nullable=True)
