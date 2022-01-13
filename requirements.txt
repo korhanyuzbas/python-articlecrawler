@@ -2,5 +2,5 @@ goose3==3.1.4
 SQLAlchemy==1.2.11
 jusText==2.2.0
 pdfminer.six==20170720
-Pillow==5.2.0
+Pillow==9.0.0
 requests==2.20.0
